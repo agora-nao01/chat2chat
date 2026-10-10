@@ -1,5 +1,5 @@
 # chat2chat
 sla
 
-# Use:
+# Nosso site:
 ## https://agora-nao01.github.io/chat2chat/
