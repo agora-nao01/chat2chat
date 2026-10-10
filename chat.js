@@ -1,5 +1,5 @@
 
-const API = "https://their-rfc-rock-swimming.trycloudflare.com";
+const API = "https://casinos-maintains-recovered-built.trycloudflare.com";
 
 const login = document.querySelector("#login");
 const chat = document.querySelector("#chat");
