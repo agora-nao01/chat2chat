@@ -1,4 +1,4 @@
-const API = "https://suitable-still-businesses-recorders.trycloudflare.com";
+const API = "https://adware-treasure-following-kinds.trycloudflare.com";
 const IS_DEBUG_APP = document.body.dataset.room === "debug";
 let currentRoom = IS_DEBUG_APP ? "debug" : "main";
 
