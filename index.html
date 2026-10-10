@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat2Chat</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-room="main">
     <main id="login">
+        <img class="brand-icon login-icon" src="icon.png" alt="">
         <h1>Chat2Chat</h1>
         <form id="login-form">
             <input id="name" maxlength="32" placeholder="Seu nome" required>
@@ -18,6 +20,7 @@
 
     <main id="chat" hidden>
         <header>
+            <img class="brand-icon" src="icon.png" alt="">
             <strong>Chat2Chat</strong>
             <span id="username"></span>
             <button id="leave">Sair</button>

@@ -288,3 +288,17 @@ code {
 @media (prefers-reduced-motion: reduce) {
     .spinning-duck { animation: none; }
 }
+
+.brand-icon {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 9px;
+    object-fit: cover;
+}
+
+.login-icon {
+    width: 72px;
+    height: 72px;
+}
