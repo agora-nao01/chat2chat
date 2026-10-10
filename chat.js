@@ -1,5 +1,5 @@
 
-const API = "https://comply-concluded-plans-diamond.trycloudflare.com";
+const API = "https://receivers-her-observed-attachment.trycloudflare.com";
 
 const login = document.querySelector("#login");
 const chat = document.querySelector("#chat");
