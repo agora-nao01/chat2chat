@@ -7,7 +7,7 @@
     <title>Chat2Chat</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-room="main">
     <main id="login">
         <h1>Chat2Chat</h1>
         <form id="login-form">
@@ -25,14 +25,42 @@
 
         <section id="messages" aria-live="polite"></section>
 
+        <div class="emoji-picker" aria-label="Inserir emoji">
+            <button class="emoji-button" type="button" data-emoji="🙂" aria-label="Inserir 🙂">🙂</button>
+            <button class="emoji-button" type="button" data-emoji="😂" aria-label="Inserir 😂">😂</button>
+            <button class="emoji-button" type="button" data-emoji="❤️" aria-label="Inserir coração">❤️</button>
+            <button class="emoji-button" type="button" data-emoji="👍" aria-label="Inserir 👍">👍</button>
+            <button class="emoji-button" type="button" data-emoji="🎉" aria-label="Inserir 🎉">🎉</button>
+            <button class="emoji-button" type="button" data-emoji="🔥" aria-label="Inserir 🔥">🔥</button>
+        </div>
         <form id="message-form">
             <input id="content" maxlength="2000"
-                   placeholder="Escreva uma mensagem..." required>
+                   placeholder="Mensagem, GIF KLIPY ou {img:https://i.imgur.com/...}" required>
+            <button class="gif-button" id="gif-open" type="button">GIF KLIPY</button>
             <button type="submit">Enviar</button>
         </form>
-
-        <p id="status"></p>
+        <p class="media-help">Busque e escolha um GIF pelo botão. Imagens Imgur: <code>{img:URL}</code>.</p>
     </main>
+
+    <dialog id="gif-dialog" class="gif-dialog">
+        <form method="dialog" class="dialog-close-row">
+            <strong>Adicionar GIF do KLIPY</strong>
+            <button type="submit" aria-label="Fechar">Fechar</button>
+        </form>
+        <form id="gif-search-form" class="gif-search-form">
+            <input id="gif-query" type="search" maxlength="100" placeholder="Search KLIPY" required>
+            <button type="submit">Buscar</button>
+        </form>
+        <p id="gif-status" role="status" aria-live="polite">Powered by KLIPY</p>
+        <div id="gif-results" class="gif-results" aria-label="Resultados de GIFs"></div>
+    </dialog>
+
+    <p id="status" role="status" aria-live="polite"></p>
+    <footer class="site-footer">
+        <a href="https://github.com/agora-nao01/chat2chat" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linktr.ee/Sou_moderador" target="_blank" rel="noopener noreferrer">Meu Linktree</a>
+        <span class="spinning-duck" role="img" aria-label="Pato girando" title="Pato girando">🦆</span>
+    </footer>
 
     <script src="chat.js"></script>
 </body>
