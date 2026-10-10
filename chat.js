@@ -8,6 +8,7 @@ const loginForm = document.querySelector("#login-form");
 const messageForm = document.querySelector("#message-form");
 const nameInput = document.querySelector("#name");
 const contentInput = document.querySelector("#content");
+const linebreakButton = document.querySelector("#linebreak");
 const messagesBox = document.querySelector("#messages");
 const statusBox = document.querySelector("#status");
 const roomSwitch = document.querySelector("#room-switch");
@@ -173,6 +174,7 @@ function renderContent(parent, content) {
 function renderMessage(message) {
     const item = document.createElement("article");
     item.className = "message";
+    item.dataset.messageId = String(message.id);
 
     const heading = document.createElement("div");
     heading.className = "message-name";
@@ -187,8 +189,68 @@ function renderMessage(message) {
     time.textContent = new Date(message.time * 1000).toLocaleTimeString();
 
     item.append(heading, content, time);
+
+    if (IS_DEBUG_APP) {
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "moderation-delete";
+        deleteButton.textContent = "Apagar";
+        deleteButton.setAttribute("aria-label", `Apagar mensagem ${message.id}`);
+        deleteButton.title = "Apagar esta mensagem";
+        deleteButton.addEventListener("click", () => deleteMessage(message.id));
+        item.append(deleteButton);
+    }
+
     messagesBox.append(item);
     lastId = Math.max(lastId, message.id);
+}
+
+function captureScrollPosition() {
+    const boxRect = messagesBox.getBoundingClientRect();
+    const anchors = [...messagesBox.querySelectorAll(".message")]
+        .filter((message) => {
+            const rect = message.getBoundingClientRect();
+            return rect.bottom > boxRect.top && rect.top < boxRect.bottom;
+        })
+        .map((message) => ({
+            message,
+            offset: message.getBoundingClientRect().top - boxRect.top
+        }));
+    return {
+        following: messagesBox.scrollHeight - messagesBox.scrollTop - messagesBox.clientHeight < 72,
+        anchors
+    };
+}
+
+function restoreScrollPosition(position) {
+    if (position.following) {
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+        return;
+    }
+    const anchor = position.anchors.find(({ message }) => message.isConnected);
+    if (anchor) {
+        const boxTop = messagesBox.getBoundingClientRect().top;
+        const newOffset = anchor.message.getBoundingClientRect().top - boxTop;
+        messagesBox.scrollTop += newOffset - anchor.offset;
+    }
+}
+
+async function deleteMessage(messageId) {
+    if (!window.confirm(`Apagar a mensagem ${messageId}?`)) return;
+
+    try {
+        const room = encodeURIComponent(currentRoom);
+        const response = await fetch(
+            `${API}/messages/${messageId}?room=${room}&debugClient=1`,
+            { method: "DELETE" }
+        );
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Falha ao apagar mensagem");
+        await loadMessages();
+        statusBox.textContent = "Mensagem apagada.";
+    } catch (error) {
+        statusBox.textContent = error.message || "Falha ao apagar mensagem";
+    }
 }
 
 async function loadMessages() {
@@ -204,11 +266,16 @@ async function loadMessages() {
 
         const data = await response.json();
         if (requestedGeneration !== roomGeneration || requestedRoom !== currentRoom) return;
+        const scrollPosition = captureScrollPosition();
+        const liveIds = new Set(data.messages.map((message) => String(message.id)));
+        for (const existing of messagesBox.querySelectorAll(".message")) {
+            if (!liveIds.has(existing.dataset.messageId)) existing.remove();
+        }
         for (const message of data.messages) {
             if (message.id > lastId) renderMessage(message);
         }
 
-        messagesBox.scrollTop = messagesBox.scrollHeight;
+        restoreScrollPosition(scrollPosition);
         statusBox.textContent = "Conectado";
     } catch {
         statusBox.textContent = "Não foi possível conectar ao servidor";
@@ -237,6 +304,8 @@ messageForm.addEventListener("submit", async (event) => {
 
         if (!response.ok) throw new Error(data.error);
         contentInput.value = "";
+        resizeComposer();
+        messagesBox.scrollTop = messagesBox.scrollHeight;
         await loadMessages();
     } catch {
         statusBox.textContent = "Falha ao enviar mensagem";
@@ -334,6 +403,28 @@ function safeKlipyMediaUrl(rawUrl) {
         return null;
     }
 }
+
+function insertComposerText(text) {
+    const start = contentInput.selectionStart;
+    const end = contentInput.selectionEnd;
+    contentInput.setRangeText(text, start, end, "end");
+    contentInput.focus();
+    resizeComposer();
+}
+
+function resizeComposer() {
+    contentInput.style.height = "auto";
+    contentInput.style.height = `${Math.min(contentInput.scrollHeight, 180)}px`;
+}
+
+linebreakButton?.addEventListener("click", () => insertComposerText("\n"));
+contentInput.addEventListener("input", resizeComposer);
+contentInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing && event.keyCode !== 229) {
+        event.preventDefault();
+        messageForm.requestSubmit();
+    }
+});
 
 document.querySelectorAll(".emoji-button").forEach((button) => {
     button.addEventListener("click", () => {

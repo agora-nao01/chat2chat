@@ -30,7 +30,8 @@ form {
     gap: 8px;
 }
 
-input {
+input,
+textarea {
     flex: 1;
     min-width: 0;
     padding: 12px;
@@ -38,6 +39,14 @@ input {
     border: 1px solid #555;
     color: white;
     font: inherit;
+}
+
+textarea {
+    min-height: 44px;
+    max-height: 180px;
+    resize: none;
+    overflow-y: auto;
+    line-height: 1.4;
 }
 
 button {
@@ -79,8 +88,35 @@ header {
 }
 
 .message {
+    position: relative;
     margin-bottom: 16px;
     overflow-wrap: anywhere;
+}
+
+[data-debug-app="true"] .message {
+    padding-right: 76px;
+}
+
+.moderation-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 8px;
+    background: #5b2424;
+    color: #fff;
+    font-size: 11px;
+}
+
+.moderation-delete:hover {
+    background: #8a3030;
+}
+
+.linebreak-button {
+    padding: 8px 10px;
+    background: #252525;
+    border: 1px solid #555;
+    color: #eee;
+    white-space: nowrap;
 }
 
 .message-name {
@@ -249,12 +285,14 @@ code {
         flex-wrap: wrap;
     }
 
-    #message-form input {
+    #message-form input,
+    #message-form textarea {
         flex-basis: 100%;
     }
 
     #message-form button,
-    #message-form .gif-button {
+    #message-form .gif-button,
+    #message-form .linebreak-button {
         flex: 1;
         justify-content: center;
     }

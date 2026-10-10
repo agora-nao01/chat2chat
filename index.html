@@ -37,8 +37,9 @@
             <button class="emoji-button" type="button" data-emoji="🔥" aria-label="Inserir 🔥">🔥</button>
         </div>
         <form id="message-form">
-            <input id="content" maxlength="2000"
-                   placeholder="Mensagem, GIF KLIPY ou {img:https://i.imgur.com/...}" required>
+            <textarea id="content" maxlength="2000" rows="1"
+                      placeholder="Mensagem (Enter envia, Shift+Enter quebra linha)" required></textarea>
+            <button class="linebreak-button" id="linebreak" type="button" title="Inserir quebra de linha">↵ Linha</button>
             <button class="gif-button" id="gif-open" type="button">GIF KLIPY</button>
             <button type="submit">Enviar</button>
         </form>
