@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat2Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main id="login">
+        <h1>Chat2Chat</h1>
+        <form id="login-form">
+            <input id="name" maxlength="32" placeholder="Seu nome" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </main>
+
+    <main id="chat" hidden>
+        <header>
+            <strong>Chat2Chat</strong>
+            <span id="username"></span>
+            <button id="leave">Sair</button>
+        </header>
+
+        <section id="messages" aria-live="polite"></section>
+
+        <form id="message-form">
+            <input id="content" maxlength="2000"
+                   placeholder="Escreva uma mensagem..." required>
+            <button type="submit">Enviar</button>
+        </form>
+
+        <p id="status"></p>
+    </main>
+
+    <script src="chat.js"></script>
+</body>
+</html>
+
