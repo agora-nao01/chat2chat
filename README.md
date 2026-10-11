@@ -1,4 +1,4 @@
 # Chat2Chat
 Sla... comversa
 
-# <a href="https://agora-nao01.github.io/chat2chat/">Clique aqui</a> para usar
+# <a href="https://www.chat2chat.jo3.org">Clique aqui</a> para usar
