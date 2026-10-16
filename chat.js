@@ -1,4 +1,4 @@
-const API = "https://conscious-myrtle-advantages-par.trycloudflare.com";
+const API = "https://wizard-coleman-temporary-uncertainty.trycloudflare.com";
 const IS_DEBUG_APP = document.body.dataset.room === "debug";
 let currentRoom = IS_DEBUG_APP ? "debug" : "main";
 
