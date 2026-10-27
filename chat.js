@@ -1,4 +1,4 @@
-const API = "https://nevada-often-mixer-cellular.trycloudflare.com";
+const API = "https://attempted-faq-evaluation-disabled.trycloudflare.com";
 const IS_DEBUG_APP = document.body.dataset.room === "debug";
 let currentRoom = IS_DEBUG_APP ? "debug" : "main";
 
